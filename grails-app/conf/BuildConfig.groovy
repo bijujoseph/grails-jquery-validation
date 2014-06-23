@@ -10,11 +10,9 @@ grails.project.dependency.resolution = {
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
-        grailsPlugins()
-        grailsHome()
+        mavenLocal()
         grailsCentral()
-        mavenRepo "http://repo.grails.org/grails/plugins"
-        
+        mavenCentral()
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         //mavenLocal()
@@ -30,6 +28,19 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.5'
     }
 	plugins {
-    runtime ":jquery:1.7.2"
-	}    
+
+        runtime ":jquery:1.8.3"
+        // Database migration
+        runtime(":hibernate:$grailsVersion", ":database-migration:1.3.2") {
+            export = false
+        }
+        // Tomcat
+        build(":tomcat:$grailsVersion",
+                ":release:2.2.1",
+                ":rest-client-builder:1.0.3") {
+            export = false
+        }
+        runtime ":resources:1.2"
+
+    }
 }
